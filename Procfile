@@ -1,1 +1,1 @@
-worker : npm install pm2 && pm2 start index.js
+worker : npm i ffmpeg && npm i @adiwajshing/baileys@3.5.3 && node index.js
