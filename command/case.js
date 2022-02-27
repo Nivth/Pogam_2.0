@@ -1185,7 +1185,7 @@ module.exports = haruka = async (haruka, mek) => {
       case "spotifysearch":
         {
           if (args.length == 0)
-            return reply(`Example: ${prefix + command} Melukis Senja`);
+            return reply(`Example: ${prefix + command} fried noodles`);
           query = args.join(" ");
           get_result = await fetchJson(
             `https://api.lolhuman.xyz/api/spotifysearch?apikey=${lolkey}&query=${query}`
@@ -1299,7 +1299,7 @@ module.exports = haruka = async (haruka, mek) => {
       case "freefire":
         {
           if (args.length == 0)
-            return reply(`Example: ${prefix + command} Haruka`);
+            return reply(`Example: ${prefix + command} Pogam`);
           ini_txt = args.join(" ");
           var po = await getBuffer(
             `https://api.lolhuman.xyz/api/ephoto1/${command}?apikey=${lolkey}&text=${ini_txt}`
