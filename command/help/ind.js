@@ -1,30 +1,3 @@
-// exports.limitcount = (prem, limitCounts) => {
-//   return `
-// *「 LIMIT COUNT 」*
-// Sisa limit : ${prem ? "1000" : `${limitCounts}`}
-// `;
-// };
-// exports.limitend = (pushname) => {
-//   return `Maaf ${pushname} limit hari ini telah habis\nlimit di reset setiap jam 24:00`;
-// };
-// exports.noregis = (pushname) => {
-//   return ` 🙅‍♀️ Halo ${pushname} lu belum daftar. Ketik .daftar dulu`;
-// };
-// exports.regis = () => {
-//   return ` daftar daftar tai anjing ini cuy santai sedang `;
-// };
-// exports.daftar = (sender, pushname, time, serialUser, totalUser) => {
-//   return ` *PENDAFTARAN BERHASIL*
-
-// • Nama : ${pushname}
-// • Nomor : ${sender.split("@")[0]}
-// • Waktu : ${time}
-// • Serial : ${serialUser}
-
-// Thanks yak udah daftar, sekarang ketik .menu untuk melihat
-// fitur bot.
-// `;
-// };
 exports.owner = (botname) => {
   return ` 🙅‍♀️ Command khusus owner ${botname}`;
 };
@@ -48,146 +21,352 @@ exports.ok = () => {
   return ` ✅ Oke done ~`;
 };
 exports.welcome = () => {
-  return `Jangan Lupa Intro Ya~
-⌯ָ   ֙Nama :
-⌯ָ   ֙Umur :
-⌯ָ   ֙Kelamin :
-⌯ָ   ֙Askot :
-╰─ ᝬ _Patuhi Rules Group Ya_  >_<`;
+  return `Selamat datang di ${groupName}, Jangan lupa cebok `;
 };
 exports.leave = () => {
-  return `
-│
-╰─ ᝬ _Balik Lagi Wajib Donasi Ya_ >_<`;
+  return `Selamat tinggal, Jangan lupa cebok`;
 };
 exports.menu = (prefix, salam, pushname) => {
   return `Hi ${pushname}, selamat ${salam}
 
-╭─⬣ *List Menu*
-│ • ${prefix}menu
-│ • ${prefix}help
-│ • ${prefix}Pogam
+╭─⬣「 List Menu 」
+├ • ${prefix}menu
+├ • ${prefix}help
+├ • ${prefix}Pogam
+├ • ${prefix}donate
 │
-├ *Download*
-│ • ${prefix}play [query]
-│ • ${prefix}song [judul lagu]
-│ • ${prefix}pinterest [query]
-│ • ${prefix}ytmp3 [url]
-│ • ${prefix}ytmp4 [url]
-│ • ${prefix}soundcloud [url]
-│ • ${prefix}telesticker [url]
-│ • ${prefix}spotify [url]
-│ • ${prefix}spotifysearch [query]
-│ • ${prefix}nhentai [code]
-│ • ${prefix}nhentaipdf [code]
-│ • ${prefix}nhentaisearch [query]
+├──「 Downloader 」
+├ • ${prefix}play [query]
+├ • ${prefix}song [judul lagu]
+├ • ${prefix}pinterest [query]
+├ • ${prefix}pinterestdl [url]
+├ • ${prefix}ytmp3 [url]
+├ • ${prefix}ytmp4 [url]
+├ • ${prefix}igdl [url]
+├ • ${prefix}fbdl [url_video]
+├ • ${prefix}soundcloud [url]
+├ • ${prefix}telesticker [url]
+├ • ${prefix}spotify [url]
+├ • ${prefix}spotifysearch [query]
+├ • ${prefix}pixiv [query]
+├ • ${prefix}pixivdl [url]
+├ • ${prefix}zippyshare [url]
 │
-├ *Convert*
-│ • ${prefix}stiker [video/image]
-│ • ${prefix}semoji 😎
-│ • ${prefix}smeme [text]
-│ • ${prefix}memegen [text|text2]
-│ • ${prefix}fast [video/vn]
-│ • ${prefix}tupai [video/vn]
-│ • ${prefix}vibra [video/vn]
-│ • ${prefix}robot [video/vn]
-│ • ${prefix}slow [video/vn]
-│ • ${prefix}bass [video/vn]
-│ • ${prefix}nightcore [video/vn]
+├──「 Movie 」
+├ • ${prefix}lk21 query
 │
-├ *Education???????*
-│ • ${prefix}nuliskiri [text]
-│ • ${prefix}nuliskanan [text]
-│ • ${prefix}foliokiri [text]
-│ • ${prefix}foliokanan [text]
+├──「 Convert 」
+├ • ${prefix}stiker [video/image]
+├ • ${prefix}memegen [text|text2]
 │
-├ *Maker Ephoto360*
-│ • ${prefix}wetglass
-│ • ${prefix}multicolor3d
-│ • ${prefix}watercolor
-│ • ${prefix}luxurygold
-│ • ${prefix}galaxywallpaper
-│ • ${prefix}lighttext
-│ • ${prefix}beautifulflower
-│ • ${prefix}puppycute
-│ • ${prefix}royaltext
-│ • ${prefix}heartshaped
-│ • ${prefix}birthdaycake
-│ • ${prefix}galaxystyle
-│ • ${prefix}hologram3d
-│ • ${prefix}greenneon
-│ • ${prefix}glossychrome
-│ • ${prefix}greenbush
-│ • ${prefix}metallogo
-│ • ${prefix}noeltext
-│ • ${prefix}glittergold
-│ • ${prefix}textcake
-│ • ${prefix}starsnight
-│ • ${prefix}wooden3d
-│ • ${prefix}textbyname
-│ • ${prefix}writegalacy
-│ • ${prefix}galaxybat
-│ • ${prefix}snow3d
-│ • ${prefix}birthdayday
-│ • ${prefix}goldplaybutton
-│ • ${prefix}silverplaybutton
-│ • ${prefix}freefire
+├──「 Searching 」
+├ • ${prefix}shopee [query]
+├ • ${prefix}google [query]
+├ • ${prefix}gimage [query]
+├ • ${prefix}konachan [query]
+├ • ${prefix}playstore [query]
+├ • ${prefix}stickerwa [query]
+├ • ${prefix}wallpapersearch [query]
 │
-├ *Maker TextPro*
-│ • ${prefix}blackpink
-│ • ${prefix}neon
-│ • ${prefix}greenneon
-│ • ${prefix}advanceglow
-│ • ${prefix}futureneon
-│ • ${prefix}sandwriting
-│ • ${prefix}sandsummer
-│ • ${prefix}sandengraved
-│ • ${prefix}metaldark
-│ • ${prefix}neonlight
-│ • ${prefix}holographic
-│ • ${prefix}text1917
-│ • ${prefix}minion
-│ • ${prefix}deluxesilver
-│ • ${prefix}newyearcard
-│ • ${prefix}bloodfrosted
-│ • ${prefix}halloween
-│ • ${prefix}jokerlogo
-│ • ${prefix}fireworksparkle
-│ • ${prefix}natureleaves
-│ • ${prefix}bokeh
-│ • ${prefix}toxic
-│ • ${prefix}strawberry
-│ • ${prefix}box3d
-│ • ${prefix}roadwarning
-│ • ${prefix}breakwall
-│ • ${prefix}icecold
-│ • ${prefix}luxury
-│ • ${prefix}cloud
-│ • ${prefix}summersand
-│ • ${prefix}horrorblood
-│ • ${prefix}thunder
+├──「 Education??????? 」
+├ • ${prefix}nuliskiri [text]
+├ • ${prefix}nuliskanan [text]
+├ • ${prefix}foliokiri [text]
+├ • ${prefix}foliokanan [text]
 │
-├ *Game*
-│ • ${prefix}tebakgambar 
+├──「 Random Text 」
+├ • ${prefix}quotes
+├ • ${prefix}quotesanime
+├ • ${prefix}quotesimage
+├ • ${prefix}faktaunik
+├ • ${prefix}katabijak
+├ • ${prefix}pantun
+├ • ${prefix}randomnama
 │
-├ *Info*
-│ • ${prefix}owner
+├──「 AniManga 」
+├ • ${prefix}wait
+├ • ${prefix}manga [query]
+├ • ${prefix}anime [query]
+├ • ${prefix}character [query]
+├ • ${prefix}kusonime [url]
+├ • ${prefix}kusonimesearch [query]
+├ • ${prefix}otakudesu [url]
+├ • ${prefix}otakudesusearch [query]
+├ • ${prefix}nhentai [kode]
+├ • ${prefix}nhentaipdf [kode]
+├ • ${prefix}nhentaisearch [query]
+├ • ${prefix}nekopoi [url]
+├ • ${prefix}nekopoisearch [query]
 │
-├ *Owner*
-│ • ${prefix}broadcast [text]
-│ • ${prefix}leave
-│ • >
-│ • $
-│ •  => 
+├──「 Information 」
+├ • ${prefix}translate [kode_negara] [text]
+├ • ${prefix}infogempa
+├ • ${prefix}lirik [query]
+├ • ${prefix}cuaca [daerah]
 │
-├ *Group*
-│ • ${prefix}antilink 1 / 0
-│ • ${prefix}hidetag [text]
-│ • ${prefix}linkgrup
-│ • ${prefix}tagall
-│ • ${prefix}kick @tag
-│ • ${prefix}setdesc [text] 
-│ • ${prefix}setname [text] 
+├──「 Other 」
+├ • ${prefix}ssweb [link]
+├ • ${prefix}shortlink [link]
+├ • ${prefix}spamsms [nomor]
+│
+├──「 Maker Ephoto360 」
+├ • ${prefix}wetglass [text]
+├ • ${prefix}multicolor3d [text]
+├ • ${prefix}watercolor [text]
+├ • ${prefix}luxurygold [text]
+├ • ${prefix}galaxywallpaper [text]
+├ • ${prefix}lighttext [text]
+├ • ${prefix}beautifulflower [text]
+├ • ${prefix}puppycute [text]
+├ • ${prefix}royaltext [text]
+├ • ${prefix}heartshaped [text]
+├ • ${prefix}birthdaycake [text]
+├ • ${prefix}galaxystyle [text]
+├ • ${prefix}hologram3d [text]
+├ • ${prefix}greenneon [text]
+├ • ${prefix}glossychrome [text]
+├ • ${prefix}greenbush [text]
+├ • ${prefix}metallogo [text]
+├ • ${prefix}noeltext [text]
+├ • ${prefix}glittergold [text]
+├ • ${prefix}textcake [text]
+├ • ${prefix}starsnight [text]
+├ • ${prefix}wooden3d [text]
+├ • ${prefix}textbyname [text]
+├ • ${prefix}writegalacy [text]
+├ • ${prefix}galaxybat [text]
+├ • ${prefix}snow3d [text]
+├ • ${prefix}birthdayday [text]
+├ • ${prefix}goldplaybutton [text]
+├ • ${prefix}silverplaybutton [text]
+├ • ${prefix}freefire [text]
+│
+├──「 Photo Oxy 」
+├ • ${prefix}shadow [text]
+├ • ${prefix}cup [text]
+├ • ${prefix}cup1 [text]
+├ • ${prefix}romance [text]
+├ • ${prefix}smoke [text]
+├ • ${prefix}burnpaper [text]
+├ • ${prefix}lovemessage [text]
+├ • ${prefix}undergrass [text]
+├ • ${prefix}love [text]
+├ • ${prefix}coffe [text]
+├ • ${prefix}woodheart [text]
+├ • ${prefix}woodenboard [text]
+├ • ${prefix}summer3d [text]
+├ • ${prefix}wolfmetal [text]
+├ • ${prefix}nature3d [text]
+├ • ${prefix}underwater [text]
+├ • ${prefix}golderrose [text]
+├ • ${prefix}summernature [text]
+├ • ${prefix}letterleaves [text]
+├ • ${prefix}glowingneon [text]
+├ • ${prefix}fallleaves [text]
+├ • ${prefix}flamming [text]
+├ • ${prefix}harrypotter [text]
+├ • ${prefix}carvedwood [text]
+├ • ${prefix}tiktok text1 [text]
+├ • ${prefix}arcade8bit [text1] [text2]
+├ • ${prefix}battlefield4 [text1] [text2]
+├ • ${prefix}pubg [text1] [text2]
+│
+├──「 Text Pro Me 」
+├ • ${prefix}blackpink [text]
+├ • ${prefix}neon [text]
+├ • ${prefix}greenneon [text]
+├ • ${prefix}advanceglow [text]
+├ • ${prefix}futureneon [text]
+├ • ${prefix}sandwriting [text]
+├ • ${prefix}sandsummer [text]
+├ • ${prefix}sandengraved [text]
+├ • ${prefix}metaldark [text]
+├ • ${prefix}neonlight [text]
+├ • ${prefix}holographic [text]
+├ • ${prefix}text1917 [text]
+├ • ${prefix}minion [text]
+├ • ${prefix}deluxesilver [text]
+├ • ${prefix}newyearcard [text]
+├ • ${prefix}bloodfrosted [text]
+├ • ${prefix}halloween [text]
+├ • ${prefix}jokerlogo [text]
+├ • ${prefix}fireworksparkle [text]
+├ • ${prefix}natureleaves [text]
+├ • ${prefix}bokeh [text]
+├ • ${prefix}toxic [text]
+├ • ${prefix}strawberry [text]
+├ • ${prefix}box3d [text]
+├ • ${prefix}roadwarning [text]
+├ • ${prefix}breakwall [text]
+├ • ${prefix}icecold [text]
+├ • ${prefix}luxury [text]
+├ • ${prefix}cloud [text]
+├ • ${prefix}summersand [text]
+├ • ${prefix}horrorblood [text]
+├ • ${prefix}thunder [text]
+├ • ${prefix}pornhub [text1] [text2]
+├ • ${prefix}glitch [text1] [text2]
+├ • ${prefix}avenger [text1] [text2]
+├ • ${prefix}space [text1] [text2]
+├ • ${prefix}ninjalogo [text1] [text2]
+├ • ${prefix}marvelstudio [text1] [text2]
+├ • ${prefix}lionlogo [text1] [text2]
+├ • ${prefix}wolflogo [text1] [text2]
+├ • ${prefix}steel3d [text1] [text2]
+├ • ${prefix}wallgravity [text1] [text2]
+│
+├──「 Random Image 」
+├ • ${prefix}art
+├ • ${prefix}elf
+├ • ${prefix}loli
+├ • ${prefix}neko
+├ • ${prefix}waifu
+├ • ${prefix}shota
+├ • ${prefix}sagiri
+├ • ${prefix}shinobu
+├ • ${prefix}megumin
+├ • ${prefix}wallnime
+├ • ${prefix}chiisaihentai
+├ • ${prefix}blowjob
+├ • ${prefix}ecchi
+├ • ${prefix}hentai
+├ • ${prefix}ahegao
+├ • ${prefix}hololewd
+├ • ${prefix}sideoppai
+├ • ${prefix}animefeets
+├ • ${prefix}animebooty
+├ • ${prefix}animethighss
+├ • ${prefix}hentaiparadise
+├ • ${prefix}animearmpits
+├ • ${prefix}hentaifemdom
+├ • ${prefix}lewdanimegirls
+├ • ${prefix}biganimetiddies
+├ • ${prefix}animebellybutton
+├ • ${prefix}hentai4everyone
+├ • ${prefix}bj
+├ • ${prefix}ero
+├ • ${prefix}cum
+├ • ${prefix}feet
+├ • ${prefix}yuri
+├ • ${prefix}lewd
+├ • ${prefix}feed
+├ • ${prefix}eron
+├ • ${prefix}solo
+├ • ${prefix}gasm
+├ • ${prefix}poke
+├ • ${prefix}anal
+├ • ${prefix}holo
+├ • ${prefix}tits
+├ • ${prefix}kuni
+├ • ${prefix}kiss
+├ • ${prefix}erok
+├ • ${prefix}smug
+├ • ${prefix}baka
+├ • ${prefix}solog
+├ • ${prefix}feetg
+├ • ${prefix}lewdk
+├ • ${prefix}waifu
+├ • ${prefix}pussy
+├ • ${prefix}femdom
+├ • ${prefix}cuddle
+├ • ${prefix}hentai
+├ • ${prefix}eroyuri
+├ • ${prefix}cum_jpg
+├ • ${prefix}blowjob
+├ • ${prefix}erofeet
+├ • ${prefix}holoero
+├ • ${prefix}classic
+├ • ${prefix}erokemo
+├ • ${prefix}fox_girl
+├ • ${prefix}futanari
+├ • ${prefix}lewdkemo
+├ • ${prefix}wallpaper
+├ • ${prefix}pussy_jpg
+├ • ${prefix}kemonomimi
+├ • ${prefix}nsfw_avatar
+├ • ${prefix}ngif
+├ • ${prefix}nsfw_neko_gif
+├ • ${prefix}random_hentai_gif
+│
+├──「 Game 」
+├ • ${prefix}tebakgambar 
+│
+├──「 Info 」
+├ • ${prefix}owner
+│
+├──「 Owner 」
+├ • ${prefix}broadcast [text]
+├ • ${prefix}leave
+├ • >
+├ • $
+├ • => 
+│
+├──「 Group 」
+├ • ${prefix}hidetag [text]
+├ • ${prefix}linkgrup
+├ • ${prefix}tagall
+├ • ${prefix}kick @tag
+├ • ${prefix}setdesc [text] 
+├ • ${prefix}setname [text] 
+│
 ╰─⬣
 `;
 };
+
+const bahasa = () => {
+  return `
+  List Bahasa :
+  af: Afrikaans
+  sq: Albanian
+  ar: Arabic
+  hy: Armenian
+  ca: Catalan
+  zh: Chinese
+  zh-cn: Chinese (Mandarin/China)
+  zh-tw: Chinese (Mandarin/Taiwan)
+  zh-yue: Chinese (Cantonese)
+  hr: Croatian
+  cs: Czech
+  da: Danish
+  nl: Dutch
+  en: English
+  en-au: English (Australia)
+  en-uk: English (United Kingdom)
+  en-us: English (United States)
+  eo: Esperanto
+  fi: Finnish
+  fr: French
+  de: German
+  el: Greek
+  ht: Haitian Creole
+  hi: Hindi
+  hu: Hungarian
+  is: Icelandic
+  id: Indonesian
+  it: Italian
+  ja: Japanese
+  ko: Korean
+  la: Latin
+  lv: Latvian
+  mk: Macedonian
+  no: Norwegian
+  pl: Polish
+  pt: Portuguese
+  pt-br: Portuguese (Brazil)
+  ro: Romanian
+  ru: Russian
+  sr: Serbian
+  sk: Slovak
+  es: Spanish
+  es-es: Spanish (Spain)
+  es-us: Spanish (United States)
+  sw: Swahili
+  sv: Swedish
+  ta: Tamil
+  th: Thai
+  tr: Turkish
+  vi: Vietnamese
+  cy: Welsh
+`;
+};
+exports.bahasa = bahasa;

@@ -11,10 +11,6 @@ global.botname = "Pogam 2.0"
 global.thumbnail = fs.readFileSync("./settings/Pogam.png") //sesuaikan dengan nama foto
 global.background = "https://telegra.ph/file/d4c05638fa7886a1d8060.jpg"
 global.lolkey = 'RIFQIBOTZ' //apikey
-global.limit = {
-		free: 1000000,
-		premium:1000
-	}
 global.session_name = "session.json"
 
 

@@ -363,78 +363,6 @@ module.exports = haruka = async (haruka, mek) => {
       });
     }
 
-    // const checkLimit = (sender) => {
-    //   let found = false;
-    //   for (let lmt of _limit) {
-    //     if (lmt.id === sender) {
-    //       let limitCounts = limitawal - lmt.limit;
-    //       if (limitCounts <= 0)
-    //         return haruka.sendMessage(from, `Limit kamu sudah habis`, text, {
-    //           quoted: mek,
-    //         });
-    //       haruka.sendMessage(
-    //         from,
-    //         lang.limitcount(isPremium, limitCounts),
-    //         text,
-    //         { quoted: mek }
-    //       );
-    //       found = true;
-    //     }
-    //   }
-    //   if (found === false) {
-    //     let obj = { id: sender, limit: 1 };
-    //     _limit.push(obj);
-    //     fs.writeFileSync("./database/user/limit.json", JSON.stringify(_limit));
-    //     haruka.sendMessage(
-    //       from,
-    //       lang.limitcount(isPremium, limitCounts),
-    //       text,
-    //       { quoted: mek }
-    //     );
-    //   }
-    // };
-    // const isLimit = (sender) => {
-    //   let position = false;
-    //   for (let i of _limit) {
-    //     if (i.id === sender) {
-    //       let limits = i.limit;
-    //       if (limits >= limitawal) {
-    //         position = true;
-    //         haruka.sendMessage(from, lang.limitend(pushname), text, {
-    //           quoted: mek,
-    //         });
-    //         return true;
-    //       } else {
-    //         _limit;
-    //         position = true;
-    //         return false;
-    //       }
-    //     }
-    //   }
-    //   if (position === false) {
-    //     const obj = { id: sender, limit: 0 };
-    //     _limit.push(obj);
-    //     fs.writeFileSync("./database/user/limit.json", JSON.stringify(_limit));
-    //     return false;
-    //   }
-    // };
-
-    // const limitAdd = (sender) => {
-    //   if (isOwner && isPremium) {
-    //     return false;
-    //   }
-    //   let position = false;
-    //   Object.keys(_limit).forEach((i) => {
-    //     if (_limit[i].id == sender) {
-    //       position = i;
-    //     }
-    //   });
-    //   if (position !== false) {
-    //     _limit[position].limit += 1;
-    //     fs.writeFileSync("./database/user/limit.json", JSON.stringify(_limit));
-    //   }
-    // };
-
     const sendStickerFromUrl = async (to, url) => {
       var names = Date.now() / 10000;
       var download = function (uri, filename, callback) {
@@ -734,20 +662,6 @@ module.exports = haruka = async (haruka, mek) => {
       case "menu":
       case "help":
       case "pogam":
-        // if (!isHaruka)
-        //   return sendButMessage(
-        //     from,
-        //     lang.noregis(pushname),
-        //     `Klik Button Untuk Verify`,
-        //     [
-        //       {
-        //         buttonId: ".daftar",
-        //         buttonText: { displayText: `Daftar` },
-        //         type: 1,
-        //       },
-        //     ],
-        //     { quoted: fgif }
-        //   );
         sendButLocation(
           from,
           lang.menu(prefix, salam, pushname),
@@ -769,7 +683,7 @@ module.exports = haruka = async (haruka, mek) => {
         );
         break;
       case "infobot":
-        reply("Thanks to lord pogam");
+        reply(`This bot is created by ${ownername}, and thanks to lord pogam`);
         break;
       case "owner":
         {
@@ -900,6 +814,11 @@ module.exports = haruka = async (haruka, mek) => {
           );
         }
         break;
+
+      case "donate":
+        reply("buy me a coffe : https://www.buymeacoffee.com/nivkaiser");
+        break;
+
       case "sticker":
       case "stiker":
       case "stickergif":
@@ -1100,6 +1019,73 @@ module.exports = haruka = async (haruka, mek) => {
           });
 
         break;
+      case "twtdl":
+        if (args.length == 0)
+          return reply(
+            `Example: ${
+              prefix + command
+            } https://twitter.com/gofoodindonesia/status/1229369819511709697`
+          );
+        ini_url = args[0];
+        ini_url = await fetchJson(
+          `https://api.lolhuman.xyz/api/twitter?apikey=${lolkey}&url=${ini_url}`
+        );
+        ini_url = ini_url.result;
+        ini_url = ini_url[ini_url.length - 1].link;
+        ini_buffer = await getBuffer(ini_url);
+        await haruka.sendMessage(from, ini_buffer, video, { quoted: mek });
+        break;
+      case "zippyshare":
+        if (args.length == 0)
+          return reply(
+            `Example: ${
+              prefix + command
+            } https://www51.zippyshare.com/v/5W0TOBz1/file.html`
+          );
+        ini_url = args[0];
+        ini_url = await fetchJson(
+          `https://api.lolhuman.xyz/api/zippyshare?apikey=${lolkey}&url=${ini_url}`
+        );
+        ini_url = ini_url.result;
+        ini_txt = `File Name : ${ini_url.name_file}\n`;
+        ini_txt += `Size : ${ini_url.size}\n`;
+        ini_txt += `Date Upload : ${ini_url.date_upload}\n`;
+        ini_txt += `Download Url : ${ini_url.download_url}`;
+        reply(ini_txt);
+        break;
+      case "pinterestdl":
+        if (args.length == 0)
+          return reply(
+            `Example: ${
+              prefix + command
+            } https://id.pinterest.com/pin/696580267364426905/`
+          );
+        ini_url = args[0];
+        ini_url = await fetchJson(
+          `https://api.lolhuman.xyz/api/pinterestdl?apikey=${lolkey}&url=${ini_url}`
+        );
+        ini_url = ini_url.result[0];
+        ini_buffer = await getBuffer(ini_url);
+        await haruka.sendMessage(from, ini_buffer, image, { quoted: mek });
+        break;
+      case "pixiv":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} loli kawaii`);
+        query = args.join(" ");
+        ini_buffer = await getBuffer(
+          `https://api.lolhuman.xyz/api/pixiv?apikey=${lolkey}&query=${query}`
+        );
+        await haruka.sendMessage(from, ini_buffer, image, { quoted: mek });
+        break;
+      case "pixivdl":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} 63456028`);
+        query = args[0];
+        ini_buffer = await getBuffer(
+          `https://api.lolhuman.xyz/api/pixivdl/${pixivid}?apikey=${lolkey}`
+        );
+        await haruka.sendMessage(from, ini_buffer, image, { quoted: mek });
+        break;
       case "play":
       case "song":
         if (args.length === 0)
@@ -1202,70 +1188,870 @@ module.exports = haruka = async (haruka, mek) => {
           reply(ini_txt);
         }
         break;
-      case "nhentai":
-        {
-          if (args.length == 0)
-            return reply(`Example: ${prefix + command} 344253`);
-          henid = args[0];
-          get_result = await fetchJson(
-            `https://api.lolhuman.xyz/api/nhentai/${henid}?apikey=${lolkey}`
-          );
-          get_result = get_result.result;
-          ini_txt = `Title Romaji : ${get_result.title_romaji}\n`;
-          ini_txt += `Title Native : ${get_result.title_native}\n`;
-          ini_txt += `Read Online : ${get_result.read}\n`;
-          get_info = get_result.info;
-          ini_txt += `Parodies : ${get_info.parodies}\n`;
-          ini_txt += `Character : ${get_info.characters.join(", ")}\n`;
-          ini_txt += `Tags : ${get_info.tags.join(", ")}\n`;
-          ini_txt += `Artist : ${get_info.artists}\n`;
-          ini_txt += `Group : ${get_info.groups}\n`;
-          ini_txt += `Languager : ${get_info.languages.join(", ")}\n`;
-          ini_txt += `Categories : ${get_info.categories}\n`;
-          ini_txt += `Pages : ${get_info.pages}\n`;
-          ini_txt += `Uploaded : ${get_info.uploaded}\n`;
-          reply(ini_txt);
+      // AniManga //
+      case "character":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} Miku Nakano`);
+        query = args.join(" ");
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/character?apikey=${lolkey}&query=${query}`
+        );
+        get_result = get_result.result;
+        ini_txt = `Id : ${get_result.id}\n`;
+        ini_txt += `Name : ${get_result.name.full}\n`;
+        ini_txt += `Native : ${get_result.name.native}\n`;
+        ini_txt += `Favorites : ${get_result.favourites}\n`;
+        ini_txt += `Media : \n`;
+        ini_media = get_result.media.nodes;
+        for (var x of ini_media) {
+          ini_txt += `- ${x.title.romaji} (${x.title.native})\n`;
         }
+        ini_txt += `\nDescription : \n${get_result.description.replace(
+          /__/g,
+          "_"
+        )}`;
+        thumbnail = await getBuffer(get_result.image.large);
+        await haruka.sendMessage(from, thumbnail, image, {
+          quoted: mek,
+          caption: ini_txt,
+        });
+        break;
+      case "manga":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} Gotoubun No Hanayome`);
+        query = args.join(" ");
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/manga?apikey=${lolkey}&query=${query}`
+        );
+        get_result = get_result.result;
+        ini_txt = `Id : ${get_result.id}\n`;
+        ini_txt += `Id MAL : ${get_result.idMal}\n`;
+        ini_txt += `Title : ${get_result.title.romaji}\n`;
+        ini_txt += `English : ${get_result.title.english}\n`;
+        ini_txt += `Native : ${get_result.title.native}\n`;
+        ini_txt += `Format : ${get_result.format}\n`;
+        ini_txt += `Chapters : ${get_result.chapters}\n`;
+        ini_txt += `Volume : ${get_result.volumes}\n`;
+        ini_txt += `Status : ${get_result.status}\n`;
+        ini_txt += `Source : ${get_result.source}\n`;
+        ini_txt += `Start Date : ${get_result.startDate.day} - ${get_result.startDate.month} - ${get_result.startDate.year}\n`;
+        ini_txt += `End Date : ${get_result.endDate.day} - ${get_result.endDate.month} - ${get_result.endDate.year}\n`;
+        ini_txt += `Genre : ${get_result.genres.join(", ")}\n`;
+        ini_txt += `Synonyms : ${get_result.synonyms.join(", ")}\n`;
+        ini_txt += `Score : ${get_result.averageScore}%\n`;
+        ini_txt += `Characters : \n`;
+        ini_character = get_result.characters.nodes;
+        for (var x of ini_character) {
+          ini_txt += `- ${x.name.full} (${x.name.native})\n`;
+        }
+        ini_txt += `\nDescription : ${get_result.description}`;
+        thumbnail = await getBuffer(get_result.coverImage.large);
+        await haruka.sendMessage(from, thumbnail, image, {
+          quoted: mek,
+          caption: ini_txt,
+        });
+        break;
+      case "anime":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} Gotoubun No Hanayome`);
+        query = args.join(" ");
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/anime?apikey=${lolkey}&query=${query}`
+        );
+        get_result = get_result.result;
+        ini_txt = `Id : ${get_result.id}\n`;
+        ini_txt += `Id MAL : ${get_result.idMal}\n`;
+        ini_txt += `Title : ${get_result.title.romaji}\n`;
+        ini_txt += `English : ${get_result.title.english}\n`;
+        ini_txt += `Native : ${get_result.title.native}\n`;
+        ini_txt += `Format : ${get_result.format}\n`;
+        ini_txt += `Episodes : ${get_result.episodes}\n`;
+        ini_txt += `Duration : ${get_result.duration} mins.\n`;
+        ini_txt += `Status : ${get_result.status}\n`;
+        ini_txt += `Season : ${get_result.season}\n`;
+        ini_txt += `Season Year : ${get_result.seasonYear}\n`;
+        ini_txt += `Source : ${get_result.source}\n`;
+        ini_txt += `Start Date : ${get_result.startDate.day} - ${get_result.startDate.month} - ${get_result.startDate.year}\n`;
+        ini_txt += `End Date : ${get_result.endDate.day} - ${get_result.endDate.month} - ${get_result.endDate.year}\n`;
+        ini_txt += `Genre : ${get_result.genres.join(", ")}\n`;
+        ini_txt += `Synonyms : ${get_result.synonyms.join(", ")}\n`;
+        ini_txt += `Score : ${get_result.averageScore}%\n`;
+        ini_txt += `Characters : \n`;
+        ini_character = get_result.characters.nodes;
+        for (var x of ini_character) {
+          ini_txt += `- ${x.name.full} (${x.name.native})\n`;
+        }
+        ini_txt += `\nDescription : ${get_result.description}`;
+        thumbnail = await getBuffer(get_result.coverImage.large);
+        await haruka.sendMessage(from, thumbnail, image, {
+          quoted: mek,
+          caption: ini_txt,
+        });
+        break;
+      case "wait":
+        if (
+          ((isMedia && !mek.message.videoMessage) || isQuotedImage) &&
+          args.length == 0
+        ) {
+          const encmedia = isQuotedImage
+            ? JSON.parse(JSON.stringify(mek).replace("quotedM", "m")).message
+                .extendedTextMessage.contextInfo
+            : mek;
+          const filebuffer = await haruka.downloadMediaMessage(encmedia);
+          const form = new FormData();
+          form.append("img", filebuffer, { filename: "tahu.jpg" });
+          get_result = await axios.post(
+            `https://api.lolhuman.xyz/api/wait?apikey=${lolkey}`,
+            form.getBuffer(),
+            {
+              headers: {
+                "content-type": `multipart/form-data; boundary=${form._boundary}`,
+              },
+            }
+          );
+          get_result = get_result.data.result;
+          ini_txt = `Anilist id : ${get_result.anilist_id}\n`;
+          ini_txt += `MAL id : ${get_result.mal_id}\n`;
+          ini_txt += `Title Romaji : ${get_result.title_romaji}\n`;
+          ini_txt += `Title Native : ${get_result.title_native}\n`;
+          ini_txt += `Title English : ${get_result.title_english}\n`;
+          ini_txt += `at : ${get_result.at}\n`;
+          ini_txt += `Episode : ${get_result.episode}\n`;
+          ini_txt += `Similarity : ${get_result.similarity}`;
+          await haruka.sendMessage(from, { url: get_result.video }, video, {
+            quoted: mek,
+            caption: ini_txt,
+          });
+        } else {
+          reply(
+            `Kirim gambar dengan caption ${
+              prefix + command
+            } atau tag gambar yang sudah dikirim`
+          );
+        }
+        break;
+      case "kusonime":
+        if (args.length == 0)
+          return reply(
+            `Example: ${
+              prefix + command
+            } https://kusonime.com/nanatsu-no-taizai-bd-batch-subtitle-indonesia/`
+          );
+        ini_url = args[0];
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/kusonime?apikey=${lolkey}&url=${ini_url}`
+        );
+        get_result = get_result.result;
+        ini_txt = `Title : ${get_result.title}\n`;
+        ini_txt += `Japanese : ${get_result.japanese}\n`;
+        ini_txt += `Genre : ${get_result.genre}\n`;
+        ini_txt += `Seasons : ${get_result.seasons}\n`;
+        ini_txt += `Producers : ${get_result.producers}\n`;
+        ini_txt += `Type : ${get_result.type}\n`;
+        ini_txt += `Status : ${get_result.status}\n`;
+        ini_txt += `Total Episode : ${get_result.total_episode}\n`;
+        ini_txt += `Score : ${get_result.score}\n`;
+        ini_txt += `Duration : ${get_result.duration}\n`;
+        ini_txt += `Released On : ${get_result.released_on}\n`;
+        ini_txt += `Desc : ${get_result.desc}\n`;
+        link_dl = get_result.link_dl;
+        for (var x in link_dl) {
+          ini_txt += `\n${x}\n`;
+          for (var y in link_dl[x]) {
+            ini_txt += `${y} - ${link_dl[x][y]}\n`;
+          }
+        }
+        ini_buffer = await getBuffer(get_result.thumbnail);
+        await haruka.sendMessage(from, ini_buffer, image, {
+          quoted: mek,
+          caption: ini_txt,
+        });
+        break;
+      case "kusonimesearch":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} Gotoubun No Hanayome`);
+        query = args.join(" ");
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/kusonimesearch?apikey=${lolkey}&query=${query}`
+        );
+        get_result = get_result.result;
+        ini_txt = `Title : ${get_result.title}\n`;
+        ini_txt += `Japanese : ${get_result.japanese}\n`;
+        ini_txt += `Genre : ${get_result.genre}\n`;
+        ini_txt += `Seasons : ${get_result.seasons}\n`;
+        ini_txt += `Producers : ${get_result.producers}\n`;
+        ini_txt += `Type : ${get_result.type}\n`;
+        ini_txt += `Status : ${get_result.status}\n`;
+        ini_txt += `Total Episode : ${get_result.total_episode}\n`;
+        ini_txt += `Score : ${get_result.score}\n`;
+        ini_txt += `Duration : ${get_result.duration}\n`;
+        ini_txt += `Released On : ${get_result.released_on}\n`;
+        ini_txt += `Desc : ${get_result.desc}\n`;
+        link_dl = get_result.link_dl;
+        for (var x in link_dl) {
+          ini_txt += `\n${x}\n`;
+          for (var y in link_dl[x]) {
+            ini_txt += `${y} - ${link_dl[x][y]}\n`;
+          }
+        }
+        ini_buffer = await getBuffer(get_result.thumbnail);
+        await haruka.sendMessage(from, ini_buffer, image, {
+          quoted: mek,
+          caption: ini_txt,
+        });
+        break;
+      case "otakudesu":
+        if (args.length == 0)
+          return reply(
+            `Example: ${
+              prefix + command
+            } https://otakudesu.tv/lengkap/pslcns-sub-indo/`
+          );
+        ini_url = args[0];
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/otakudesu?apikey=${lolkey}&url=${ini_url}`
+        );
+        get_result = get_result.result;
+        ini_txt = `Title : ${get_result.title}\n`;
+        ini_txt += `Japanese : ${get_result.japanese}\n`;
+        ini_txt += `Judul : ${get_result.judul}\n`;
+        ini_txt += `Type : ${get_result.type}\n`;
+        ini_txt += `Episode : ${get_result.episodes}\n`;
+        ini_txt += `Aired : ${get_result.aired}\n`;
+        ini_txt += `Producers : ${get_result.producers}\n`;
+        ini_txt += `Genre : ${get_result.genres}\n`;
+        ini_txt += `Duration : ${get_result.duration}\n`;
+        ini_txt += `Studios : ${get_result.status}\n`;
+        ini_txt += `Rating : ${get_result.rating}\n`;
+        ini_txt += `Credit : ${get_result.credit}\n`;
+        get_link = get_result.link_dl;
+        for (var x in get_link) {
+          ini_txt += `\n\n*${get_link[x].title}*\n`;
+          for (var y in get_link[x].link_dl) {
+            ini_info = get_link[x].link_dl[y];
+            ini_txt += `\n\`\`\`Reso : \`\`\`${ini_info.reso}\n`;
+            ini_txt += `\`\`\`Size : \`\`\`${ini_info.size}\n`;
+            ini_txt += `\`\`\`Link : \`\`\`\n`;
+            down_link = ini_info.link_dl;
+            for (var z in down_link) {
+              ini_txt += `${z} - ${down_link[z]}\n`;
+            }
+          }
+        }
+        reply(ini_txt);
+        break;
+      case "otakudesusearch":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} Gotoubun No Hanayome`);
+        query = args.join(" ");
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/otakudesusearch?apikey=${lolkey}&query=${query}`
+        );
+        get_result = get_result.result;
+        ini_txt = `Title : ${get_result.title}\n`;
+        ini_txt += `Japanese : ${get_result.japanese}\n`;
+        ini_txt += `Judul : ${get_result.judul}\n`;
+        ini_txt += `Type : ${get_result.type}\n`;
+        ini_txt += `Episode : ${get_result.episodes}\n`;
+        ini_txt += `Aired : ${get_result.aired}\n`;
+        ini_txt += `Producers : ${get_result.producers}\n`;
+        ini_txt += `Genre : ${get_result.genres}\n`;
+        ini_txt += `Duration : ${get_result.duration}\n`;
+        ini_txt += `Studios : ${get_result.status}\n`;
+        ini_txt += `Rating : ${get_result.rating}\n`;
+        ini_txt += `Credit : ${get_result.credit}\n`;
+        get_link = get_result.link_dl;
+        for (var x in get_link) {
+          ini_txt += `\n\n*${get_link[x].title}*\n`;
+          for (var y in get_link[x].link_dl) {
+            ini_info = get_link[x].link_dl[y];
+            ini_txt += `\n\`\`\`Reso : \`\`\`${ini_info.reso}\n`;
+            ini_txt += `\`\`\`Size : \`\`\`${ini_info.size}\n`;
+            ini_txt += `\`\`\`Link : \`\`\`\n`;
+            down_link = ini_info.link_dl;
+            for (var z in down_link) {
+              ini_txt += `${z} - ${down_link[z]}\n`;
+            }
+          }
+        }
+        reply(ini_txt);
+        break;
+      case "nhentai":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} 344253`);
+        henid = args[0];
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/nhentai/${henid}?apikey=${lolkey}`
+        );
+        get_result = get_result.result;
+        ini_txt = `Title Romaji : ${get_result.title_romaji}\n`;
+        ini_txt += `Title Native : ${get_result.title_native}\n`;
+        ini_txt += `Read Online : ${get_result.read}\n`;
+        get_info = get_result.info;
+        ini_txt += `Parodies : ${get_info.parodies}\n`;
+        ini_txt += `Character : ${get_info.characters.join(", ")}\n`;
+        ini_txt += `Tags : ${get_info.tags.join(", ")}\n`;
+        ini_txt += `Artist : ${get_info.artists}\n`;
+        ini_txt += `Group : ${get_info.groups}\n`;
+        ini_txt += `Languager : ${get_info.languages.join(", ")}\n`;
+        ini_txt += `Categories : ${get_info.categories}\n`;
+        ini_txt += `Pages : ${get_info.pages}\n`;
+        ini_txt += `Uploaded : ${get_info.uploaded}\n`;
+        reply(ini_txt);
         break;
       case "nhentaipdf":
-        {
-          if (args.length == 0)
-            return reply(`Example: ${prefix + command} 344253`);
-          henid = args[0];
-          get_result = await fetchJson(
-            `https://api.lolhuman.xyz/api/nhentaipdf/${henid}?apikey=${lolkey}`
-          );
-          get_result = get_result.result;
-          ini_buffer = await getBuffer(get_result);
-          await haruka.sendMessage(from, ini_buffer, document, {
-            quoted: mek,
-            mimetype: Mimetype.pdf,
-            filename: `${henid}.pdf`,
-          });
-        }
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} 344253`);
+        henid = args[0];
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/nhentaipdf/${henid}?apikey=${lolkey}`
+        );
+        get_result = get_result.result;
+        ini_buffer = await getBuffer(get_result);
+        await haruka.sendMessage(from, ini_buffer, document, {
+          quoted: mek,
+          mimetype: Mimetype.pdf,
+          filename: `${henid}.pdf`,
+        });
         break;
       case "nhentaisearch":
-        {
-          if (args.length == 0)
-            return reply(`Example: ${prefix + command} Gotoubun No Hanayome`);
-          query = args.join(" ");
-          get_result = await fetchJson(
-            `https://api.lolhuman.xyz/api/nhentaisearch?apikey=${lolkey}&query=${query}`
-          );
-          get_result = get_result.result;
-          ini_txt = "Result : \n";
-          for (var x of get_result) {
-            ini_txt += `Id : ${x.id}\n`;
-            ini_txt += `Title English : ${x.title_english}\n`;
-            ini_txt += `Title Japanese : ${x.title_japanese}\n`;
-            ini_txt += `Native : ${x.title_native}\n`;
-            ini_txt += `Upload : ${x.date_upload}\n`;
-            ini_txt += `Page : ${x.page}\n`;
-            ini_txt += `Favourite : ${x.favourite}\n\n`;
-          }
-          reply(ini_txt);
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} Gotoubun No Hanayome`);
+        query = args.join(" ");
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/nhentaisearch?apikey=${lolkey}&query=${query}`
+        );
+        get_result = get_result.result;
+        ini_txt = "Result : \n";
+        for (var x of get_result) {
+          ini_txt += `Id : ${x.id}\n`;
+          ini_txt += `Title English : ${x.title_english}\n`;
+          ini_txt += `Title Japanese : ${x.title_japanese}\n`;
+          ini_txt += `Native : ${x.title_native}\n`;
+          ini_txt += `Upload : ${x.date_upload}\n`;
+          ini_txt += `Page : ${x.page}\n`;
+          ini_txt += `Favourite : ${x.favourite}\n\n`;
         }
+        reply(ini_txt);
         break;
+      case "nekopoi":
+        if (args.length == 0)
+          return reply(
+            `Example: ${
+              prefix + command
+            } https://nekopoi.care/isekai-harem-monogatari-episode-4-subtitle-indonesia/`
+          );
+        ini_url = args[0];
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/nekopoi?apikey=${lolkey}&url=${ini_url}`
+        );
+        get_result = get_result.result;
+        ini_txt = `Title : ${get_result.anime}\n`;
+        ini_txt += `Porducers : ${get_result.producers}\n`;
+        ini_txt += `Duration : ${get_result.duration}\n`;
+        ini_txt += `Size : ${get_result.size}\n`;
+        ini_txt += `Sinopsis : ${get_result.sinopsis}\n`;
+        link = get_result.link;
+        for (var x in link) {
+          ini_txt += `\n${link[x].name}\n`;
+          link_dl = link[x].link;
+          for (var y in link_dl) {
+            ini_txt += `${y} - ${link_dl[y]}\n`;
+          }
+        }
+        ini_buffer = await getBuffer(get_result.thumb);
+        await haruka.sendMessage(from, ini_buffer, image, {
+          quoted: mek,
+          caption: ini_txt,
+        });
+        break;
+      case "nekopoisearch":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} Isekai Harem`);
+        query = args.join(" ");
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/nekopoisearch?apikey=${lolkey}&query=${query}`
+        );
+        get_result = get_result.result;
+        ini_txt = "";
+        for (var x of get_result) {
+          ini_txt += `Title : ${x.title}\n`;
+          ini_txt += `Link : ${x.link}\n`;
+          ini_txt += `Thumbnail : ${x.thumbnail}\n\n`;
+        }
+        reply(ini_txt);
+        break;
+
+      // information
+
+      case "translate":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} en Tahu Bacem`);
+        kode_negara = args[0];
+        args.shift();
+        ini_txt = args.join(" ");
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/translate/auto/${kode_negara}?apikey=${lolkey}&text=${ini_txt}`
+        );
+        get_result = get_result.result;
+        init_txt = `From : ${get_result.from}\n`;
+        init_txt += `To : ${get_result.to}\n`;
+        init_txt += `Original : ${get_result.original}\n`;
+        init_txt += `Translated : ${get_result.translated}\n`;
+        init_txt += `Pronunciation : ${get_result.pronunciation}\n`;
+        reply(init_txt);
+        break;
+      case "infogempa":
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/infogempa?apikey=${lolkey}`
+        );
+        get_result = get_result.result;
+        ini_txt = `Lokasi : ${get_result.lokasi}\n`;
+        ini_txt += `Waktu : ${get_result.waktu}\n`;
+        ini_txt += `Potensi : ${get_result.potensi}\n`;
+        ini_txt += `Magnitude : ${get_result.magnitude}\n`;
+        ini_txt += `Kedalaman : ${get_result.kedalaman}\n`;
+        ini_txt += `Koordinat : ${get_result.koordinat}`;
+        get_buffer = await getBuffer(get_result.map);
+        await haruka.sendMessage(from, get_buffer, image, {
+          quoted: mek,
+          caption: ini_txt,
+        });
+        break;
+      case "lirik":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} Melukis Senja`);
+        query = args.join(" ");
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/lirik?apikey=${lolkey}&query=${query}`
+        );
+        reply(get_result.result);
+        break;
+      case "cuaca":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} Yogyakarta`);
+        daerah = args[0];
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/cuaca/${daerah}?apikey=${lolkey}`
+        );
+        get_result = get_result.result;
+        ini_txt = `Tempat : ${get_result.tempat}\n`;
+        ini_txt += `Cuaca : ${get_result.cuaca}\n`;
+        ini_txt += `Angin : ${get_result.angin}\n`;
+        ini_txt += `Description : ${get_result.description}\n`;
+        ini_txt += `Kelembapan : ${get_result.kelembapan}\n`;
+        ini_txt += `Suhu : ${get_result.suhu}\n`;
+        ini_txt += `Udara : ${get_result.udara}\n`;
+        ini_txt += `Permukaan laut : ${get_result.permukaan_laut}\n`;
+        await haruka.sendMessage(
+          from,
+          {
+            degreesLatitude: get_result.latitude,
+            degreesLongitude: get_result.longitude,
+          },
+          location,
+          { quoted: mek }
+        );
+        reply(ini_txt);
+        break;
+      case "covidindo":
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/corona/indonesia?apikey=${lolkey}`
+        );
+        get_result = get_result.result;
+        ini_txt = `Positif : ${get_result.positif}\n`;
+        ini_txt += `Sembuh : ${get_result.sembuh}\n`;
+        ini_txt += `Dirawat : ${get_result.dirawat}\n`;
+        ini_txt += `Meninggal : ${get_result.meninggal}`;
+        reply(ini_txt);
+        break;
+      case "covidglobal":
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/corona/global?apikey=${lolkey}`
+        );
+        get_result = get_result.result;
+        ini_txt = `Positif : ${get_result.positif}\n`;
+        ini_txt += `Sembuh : ${get_result.sembuh}\n`;
+        ini_txt += `Dirawat : ${get_result.dirawat}\n`;
+        ini_txt += `Meninggal : ${get_result.meninggal}`;
+        reply(ini_txt);
+        break;
+
+      // Movie & Story
+      case "lk21":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} Transformer`);
+        query = args.join(" ");
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/lk21?apikey=${lolkey}&query=${query}`
+        );
+        get_result = get_result.result;
+        ini_txt = `Title : ${get_result.title}\n`;
+        ini_txt += `Link : ${get_result.link}\n`;
+        ini_txt += `Genre : ${get_result.genre}\n`;
+        ini_txt += `Views : ${get_result.views}\n`;
+        ini_txt += `Duration : ${get_result.duration}\n`;
+        ini_txt += `Tahun : ${get_result.tahun}\n`;
+        ini_txt += `Rating : ${get_result.rating}\n`;
+        ini_txt += `Desc : ${get_result.desc}\n`;
+        ini_txt += `Actors : ${get_result.actors.join(", ")}\n`;
+        ini_txt += `Location : ${get_result.location}\n`;
+        ini_txt += `Date Release : ${get_result.date_release}\n`;
+        ini_txt += `Language : ${get_result.language}\n`;
+        ini_txt += `Link Download : ${get_result.link_dl}`;
+        thumbnail = await getBuffer(get_result.thumbnail);
+        await haruka.sendMessage(from, thumbnail, image, {
+          quoted: mek,
+          caption: ini_txt,
+        });
+
+        break;
+
+      // Random Text //
+      case "quotes":
+        quotes = await fetchJson(
+          `https://api.lolhuman.xyz/api/random/quotes?apikey=${lolkey}}`
+        );
+        quotes = quotes.result;
+        author = quotes.by;
+        quotes = quotes.quote;
+        reply(`_${quotes}_\n\n*― ${author}*`);
+        break;
+      case "quotesanime":
+        quotes = await fetchJson(
+          `https://api.lolhuman.xyz/api/random/quotesnime?apikey=${lolkey}`
+        );
+        quotes = quotes.result;
+        quote = quotes.quote;
+        char = quotes.character;
+        anime = quotes.anime;
+        episode = quotes.episode;
+        reply(`_${quote}_\n\n*― ${char}*\n*― ${anime} ${episode}*`);
+        break;
+
+      case "quotesimage":
+        get_result = await getBuffer(
+          `https://api.lolhuman.xyz/api/random/${command}?apikey=${lolkey}`
+        );
+        await haruka.sendMessage(from, get_result, image, { quotes: mek });
+        break;
+      case "faktaunik":
+      case "katabijak":
+      case "pantun":
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/random/${command}?apikey=${lolkey}`
+        );
+        reply(get_result.result);
+        break;
+      case "randomnama":
+        anu = await fetchJson(
+          `https://api.lolhuman.xyz/api/random/nama?apikey=${lolkey}`
+        );
+        reply(anu.result);
+        break;
+
+      // Searching
+      case "gimage":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} loli kawaii`);
+        query = args.join(" ");
+        ini_buffer = await getBuffer(
+          `https://api.lolhuman.xyz/api/gimage?apikey=${lolkey}&query=${query}`
+        );
+        await haruka.sendMessage(from, ini_buffer, image, { quoted: mek });
+        break;
+      case "konachan":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} azur_lane`);
+        query = args.join(" ");
+        ini_buffer = await getBuffer(
+          `https://api.lolhuman.xyz/api/konachan?apikey=${lolkey}&query=${query}`
+        );
+        await haruka.sendMessage(from, ini_buffer, image, { quoted: mek });
+        break;
+      case "wallpapersearch":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} loli kawaii`);
+        query = args.join(" ");
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/wallpaper?apikey=${lolkey}&query=${query}`
+        );
+        ini_buffer = await getBuffer(get_result.result);
+        await haruka.sendMessage(from, ini_buffer, image, { quoted: mek });
+        break;
+      case "playstore":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} telegram`);
+        query = args.join(" ");
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/playstore?apikey=${lolkey}&query=${query}`
+        );
+        get_result = get_result.result;
+        ini_txt = "Play Store Search : \n";
+        for (var x of get_result) {
+          ini_txt += `Name : ${x.title}\n`;
+          ini_txt += `ID : ${x.appId}\n`;
+          ini_txt += `Developer : ${x.developer}\n`;
+          ini_txt += `Link : ${x.url}\n`;
+          ini_txt += `Price : ${x.priceText}\n`;
+          ini_txt += `Price : ${x.price}\n\n`;
+        }
+        reply(ini_txt);
+        break;
+      case "shopee":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} tas gendong`);
+        query = args.join(" ");
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/shopee?apikey=${lolkey}&query=${query}`
+        );
+        get_result = get_result.result;
+        ini_txt = "Shopee Search : \n";
+        for (var x of get_result) {
+          ini_txt += `Name : ${x.name}\n`;
+          ini_txt += `Terjual : ${x.sold}\n`;
+          ini_txt += `Stock : ${x.stock}\n`;
+          ini_txt += `Lokasi : ${x.shop_loc}\n`;
+          ini_txt += `Link : ${x.link_produk}\n\n`;
+        }
+        reply(ini_txt);
+        break;
+      case "google":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} loli kawaii`);
+        query = args.join(" ");
+        get_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/gsearch?apikey=${lolkey}&query=${query}`
+        );
+        get_result = get_result.result;
+        ini_txt = "Google Search : \n";
+        for (var x of get_result) {
+          ini_txt += `Title : ${x.title}\n`;
+          ini_txt += `Link : ${x.link}\n`;
+          ini_txt += `Desc : ${x.desc}\n\n`;
+        }
+        reply(ini_txt);
+        break;
+
+      // Stalk
+      case "stalkig":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} jessnolimit`);
+        username = args[0];
+        ini_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/stalkig/${username}?apikey=${lolkey}`
+        );
+        ini_result = ini_result.result;
+        ini_buffer = await getBuffer(ini_result.photo_profile);
+        ini_txt = `Username : ${ini_result.username}\n`;
+        ini_txt += `Full Name : ${ini_result.fullname}\n`;
+        ini_txt += `Posts : ${ini_result.posts}\n`;
+        ini_txt += `Followers : ${ini_result.followers}\n`;
+        ini_txt += `Following : ${ini_result.following}\n`;
+        ini_txt += `Bio : ${ini_result.bio}`;
+        haruka.sendMessage(from, ini_buffer, image, { caption: ini_txt });
+        break;
+      case "stalkgithub":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} LoL-Human`);
+        username = args[0];
+        ini_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/github/${username}?apikey=${lolkey}}`
+        );
+        ini_result = ini_result.result;
+        ini_buffer = await getBuffer(ini_result.avatar);
+        ini_txt = `Name : ${ini_result.name}\n`;
+        ini_txt += `Link : ${ini_result.url}\n`;
+        ini_txt += `Public Repo : ${ini_result.public_repos}\n`;
+        ini_txt += `Public Gists : ${ini_result.public_gists}\n`;
+        ini_txt += `Followers : ${ini_result.followers}\n`;
+        ini_txt += `Following : ${ini_result.following}\n`;
+        ini_txt += `Bio : ${ini_result.bio}`;
+        haruka.sendMessage(from, ini_buffer, image, { caption: ini_txt });
+        break;
+      case "stalktwitter":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} jokowi`);
+        username = args[0];
+        ini_result = await fetchJson(
+          `https://api.lolhuman.xyz/api/twitter/${username}?apikey=${lolkey}`
+        );
+        ini_result = ini_result.result;
+        ini_buffer = await getBuffer(ini_result.profile_picture);
+        ini_txt = `Username : ${ini_result.screen_name}\n`;
+        ini_txt += `Name : ${ini_result.name}\n`;
+        ini_txt += `Tweet : ${ini_result.tweet}\n`;
+        ini_txt += `Joined : ${ini_result.joined}\n`;
+        ini_txt += `Followers : ${ini_result.followers}\n`;
+        ini_txt += `Following : ${ini_result.following}\n`;
+        ini_txt += `Like : ${ini_result.like}\n`;
+        ini_txt += `Description : ${ini_result.description}`;
+        haruka.sendMessage(from, ini_buffer, image, { caption: ini_txt });
+        break;
+      case "stalktiktok":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} bulansutena`);
+        stalk_toktok = args[0];
+        get_result = await fetchJson(
+          `http://lolhuman.herokuapp.com/api/stalktiktok/${stalk_toktok}?apikey=${lolkey}`
+        );
+        get_result = get_result.result;
+        ini_txt = `Username : ${get_result.username}\n`;
+        ini_txt += `Nickname : ${get_result.nickname}\n`;
+        ini_txt += `Followers : ${get_result.followers}\n`;
+        ini_txt += `Followings : ${get_result.followings}\n`;
+        ini_txt += `Likes : ${get_result.likes}\n`;
+        ini_txt += `Video : ${get_result.video}\n`;
+        ini_txt += `Bio : ${get_result.bio}\n`;
+        pp_tt = await getBuffer(get_result.user_picture);
+        haruka.sendMessage(from, pp_tt, image, {
+          quoted: mek,
+          caption: ini_txt,
+        });
+        break;
+
+      // Other
+      case "ssweb":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} https://api.lolhuman.xyz`);
+        ini_link = args[0];
+        ini_buffer = await getBuffer(
+          `https://api.lolhuman.xyz/api/sswebfull?apikey=${lolkey}&url=${ini_link}`
+        );
+        await haruka.sendMessage(from, ini_buffer, image, { quoted: mek });
+        break;
+      case "shortlink":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} https://api.lolhuman.xyz`);
+        ini_link = args[0];
+        ini_buffer = await fetchJson(
+          `https://api.lolhuman.xyz/api/shortlink?apikey=${lolkey}&url=${ini_link}`
+        );
+        reply(ini_buffer.result);
+        break;
+      case "spamsms":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} 08303030303030`);
+        nomor = args[0];
+        await fetchJson(
+          `https://api.lolhuman.xyz/api/sms/spam1?apikey=${lolkeyy}&nomor=${nomor}`
+        );
+        await fetchJson(
+          `https://api.lolhuman.xyz/api/sms/spam2?apikey=${lolkey}&nomor=${nomor}`
+        );
+        await fetchJson(
+          `https://api.lolhuman.xyz/api/sms/spam3?apikey=${lolkey}&nomor=${nomor}`
+        );
+        await fetchJson(
+          `https://api.lolhuman.xyz/api/sms/spam4?apikey=${lolkey}&nomor=${nomor}`
+        );
+        await fetchJson(
+          `https://api.lolhuman.xyz/api/sms/spam5?apikey=${lolkey}&nomor=${nomor}`
+        );
+        await fetchJson(
+          `https://api.lolhuman.xyz/api/sms/spam6?apikey=${lolkey}&nomor=${nomor}`
+        );
+        await fetchJson(
+          `https://api.lolhuman.xyz/api/sms/spam7?apikey=${lolkey}&nomor=${nomor}`
+        );
+        await fetchJson(
+          `https://api.lolhuman.xyz/api/sms/spam8?apikey=${lolkey}&nomor=${nomor}`
+        );
+        reply("Success");
+        break;
+
+      // Random Image //
+      case "art":
+      case "elf":
+      case "loli":
+      case "neko":
+      case "waifu":
+      case "shota":
+      case "husbu":
+      case "sagiri":
+      case "shinobu":
+      case "megumin":
+      case "wallnime":
+        getBuffer(
+          `https://api.lolhuman.xyz/api/random/${command}?apikey=${lolkey}`
+        ).then((gambar) => {
+          haruka.sendMessage(from, gambar, image, { quoted: mek });
+        });
+        break;
+      case "chiisaihentai":
+      case "trap":
+      case "blowjob":
+      case "yaoi":
+      case "ecchi":
+      case "hentai":
+      case "ahegao":
+      case "hololewd":
+      case "sideoppai":
+      case "animefeets":
+      case "animebooty":
+      case "animethighss":
+      case "hentaiparadise":
+      case "animearmpits":
+      case "hentaifemdom":
+      case "lewdanimegirls":
+      case "biganimetiddies":
+      case "animebellybutton":
+      case "hentai4everyone":
+        await getBuffer(
+          `https://api.lolhuman.xyz/api/random/nsfw/${command}?apikey=${lolkey}`
+        ).then((gambar) => {
+          haruka.sendMessage(from, gambar, image, { quoted: mek });
+        });
+        break;
+      case "bj":
+      case "ero":
+      case "cum":
+      case "feet":
+      case "yuri":
+      case "trap":
+      case "lewd":
+      case "feed":
+      case "eron":
+      case "solo":
+      case "gasm":
+      case "poke":
+      case "anal":
+      case "holo":
+      case "tits":
+      case "kuni":
+      case "kiss":
+      case "erok":
+      case "smug":
+      case "baka":
+      case "solog":
+      case "feetg":
+      case "lewdk":
+      case "waifu":
+      case "pussy":
+      case "femdom":
+      case "cuddle":
+      case "hentai":
+      case "eroyuri":
+      case "cum_jpg":
+      case "blowjob":
+      case "erofeet":
+      case "holoero":
+      case "classic":
+      case "erokemo":
+      case "fox_girl":
+      case "futanari":
+      case "lewdkemo":
+      case "wallpaper":
+      case "pussy_jpg":
+      case "kemonomimi":
+      case "nsfw_avatar":
+        getBuffer(
+          `https://api.lolhuman.xyz/api/random2/${command}?apikey=${lolkey}`
+        ).then((gambar) => {
+          haruka.sendMessage(from, gambar, image, { quoted: mek });
+        });
+        break;
+
       //maker ephoto
       case "wetglass":
       case "multicolor3d":
@@ -1296,21 +2082,68 @@ module.exports = haruka = async (haruka, mek) => {
       case "birthdayday":
       case "goldplaybutton":
       case "silverplaybutton":
-      case "freefire":
-        {
-          if (args.length == 0)
-            return reply(`Example: ${prefix + command} Pogam`);
-          ini_txt = args.join(" ");
-          var po = await getBuffer(
-            `https://api.lolhuman.xyz/api/ephoto1/${command}?apikey=${lolkey}&text=${ini_txt}`
-          );
-          haruka.sendMessage(from, po, image, {
-            quoted: mek,
-            caption: "Selesai",
-          });
-        }
+      case "freefire": {
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} Haruka`);
+        ini_txt = args.join(" ");
+        var po = await getBuffer(
+          `https://api.lolhuman.xyz/api/ephoto1/${command}?apikey=${lolkey}&text=${ini_txt}`
+        );
+        haruka.sendMessage(from, po, image, {
+          quoted: mek,
+          caption: "Selesai",
+        });
+      }
+
+      // Photo Oxy //
+      case "shadow":
+      case "cup":
+      case "cup1":
+      case "romance":
+      case "smoke":
+      case "burnpaper":
+      case "lovemessage":
+      case "undergrass":
+      case "love":
+      case "coffe":
+      case "woodheart":
+      case "woodenboard":
+      case "summer3d":
+      case "wolfmetal":
+      case "nature3d":
+      case "underwater":
+      case "golderrose":
+      case "summernature":
+      case "letterleaves":
+      case "glowingneon":
+      case "fallleaves":
+      case "flamming":
+      case "harrypotter":
+      case "carvedwood":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} Pogam Gemink`);
+        ini_txt = args.join(" ");
+        getBuffer(
+          `https://api.lolhuman.xyz/api/photooxy1/${command}?apikey=${lolkey}&text=${ini_txt}`
+        ).then((gambar) => {
+          haruka.sendMessage(from, gambar, image, { quoted: mek });
+        });
         break;
-      //maker textpro
+      case "tiktok":
+      case "arcade8bit":
+      case "battlefield4":
+      case "pubg":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} Pogam Gemink`);
+        txt1 = args[0];
+        txt2 = args[1];
+        getBuffer(
+          `https://api.lolhuman.xyz/api/photooxy2/${command}?apikey=${lolkey}&text1=${txt1}&text2=${txt2}`
+        ).then((gambar) => {
+          haruka.sendMessage(from, gambar, image, { quoted: mek });
+        });
+        break;
+      // Textprome //
       case "blackpink":
       case "neon":
       case "greenneon":
@@ -1343,18 +2176,34 @@ module.exports = haruka = async (haruka, mek) => {
       case "summersand":
       case "horrorblood":
       case "thunder":
-        {
-          if (args.length == 0)
-            return reply(`Example: ${prefix + command} Pogam`);
-          ini_txt = args.join(" ");
-          let gambar = await getBuffer(
-            `https://api.lolhuman.xyz/api/textprome/${command}?apikey=${lolkey}&text=${ini_txt}`
-          );
-          haruka.sendMessage(from, gambar, image, {
-            quoted: mek,
-            caption: "Sukses",
-          });
-        }
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} Pogam Gemink`);
+        ini_txt = args.join(" ");
+        getBuffer(
+          `https://api.lolhuman.xyz/api/textprome/${command}?apikey=${lolkey}&text=${ini_txt}`
+        ).then((gambar) => {
+          haruka.sendMessage(from, gambar, image, { quoted: mek });
+        });
+        break;
+      case "pornhub":
+      case "glitch":
+      case "avenger":
+      case "space":
+      case "ninjalogo":
+      case "marvelstudio":
+      case "lionlogo":
+      case "wolflogo":
+      case "steel3d":
+      case "wallgravity":
+        if (args.length == 0)
+          return reply(`Example: ${prefix + command} Pogam Gemink`);
+        txt1 = args[0];
+        txt2 = args[1];
+        getBuffer(
+          `https://api.lolhuman.xyz/api/textprome2/${command}?apikey=${lolkey}&text1=${txt1}&text2=${txt2}`
+        ).then((gambar) => {
+          haruka.sendMessage(from, gambar, image, { quoted: mek });
+        });
         break;
       case "antilink":
         if (!isGroup) return reply(lang.group());
@@ -1418,35 +2267,7 @@ module.exports = haruka = async (haruka, mek) => {
           }
         }
         break;
-      case "stickermeme":
-      case "memesticker":
-      case "memestick":
-      case "stickmeme":
-      case "stcmeme":
-      case "smeme":
-        {
-          if (args.length < 1)
-            return reply(`Kirim perintah *${prefix + command}* Alphabot`);
-          if (q.includes("|"))
-            return reply(`Kirim perintah *${prefix + command}* Alphabot`);
-          try {
-            if (!isQuotedImage) return reply(`Reply Gambar!`);
-            reply(lang.wait());
-            var teks2 = args.join(" ");
-            var enmedia = isQuotedImage
-              ? JSON.parse(JSON.stringify(mek).replace("quotedM", "m")).message
-                  .extendedTextMessage.contextInfo
-              : mek;
-            var mediia = await haruka.downloadMediaMessage(enmedia);
-            var njay = await uploadImages(mediia);
-            var resu = `https://api.memegen.link/images/custom/-/${teks2}.png?background=${njay}`;
-            sendStickerFromUrl(from, `${resu}`);
-          } catch (e) {
-            reply(lang.err());
-            console.log(e);
-          }
-        }
-        break;
+
       case "leave":
         if (!isGroup) return reply(lang.group());
         if (!isOwner) return reply(lang.owner(botname));
@@ -1574,179 +2395,7 @@ module.exports = haruka = async (haruka, mek) => {
           reply("Sukses broadcast");
         }
         break;
-      case "nightcore":
-        {
-          if (!isQuotedAudio) return reply("Reply audio nya om");
-          encmedia = JSON.parse(JSON.stringify(mek).replace("quotedM", "m"))
-            .message.extendedTextMessage.contextInfo;
-          media = await haruka.downloadAndSaveMediaMessage(encmedia);
-          ran = getRandom(".mp3");
-          exec(
-            `ffmpeg -i ${media} -filter:a atempo=1.06,asetrate=44100*1.25 ${ran}`,
-            (err, stderr, stdout) => {
-              fs.unlinkSync(media);
-              if (err) return reply("Error!");
-              hah = fs.readFileSync(ran);
-              haruka.sendMessage(from, hah, audio, {
-                mimetype: "audio/mp4",
-                ptt: true,
-                quoted: mek,
-                duration: 99999999999999999999999,
-              });
-              fs.unlinkSync(ran);
-            }
-          );
-        }
-        break;
-      case "bass":
-        {
-          encmedia = JSON.parse(JSON.stringify(mek).replace("quotedM", "m"))
-            .message.extendedTextMessage.contextInfo;
-          media = await haruka.downloadAndSaveMediaMessage(encmedia);
-          ran = getRandom(".mp3");
-          exec(
-            `ffmpeg -i ${media} -af equalizer=f=94:width_type=o:width=2:g=30 ${ran}`,
-            (err, stderr, stdout) => {
-              fs.unlinkSync(media);
-              if (err) return reply("Error!");
-              hah = fs.readFileSync(ran);
-              haruka.sendMessage(from, hah, audio, {
-                mimetype: "audio/mp4",
-                ptt: true,
-                quoted: mek,
-                duration: 99999999999999999999999,
-              });
-              fs.unlinkSync(ran);
-            }
-          );
-        }
-        break;
-      case "slowmo":
-      case "slow":
-        {
-          try {
-            encmedia = JSON.parse(JSON.stringify(mek).replace("quotedM", "m"))
-              .message.extendedTextMessage.contextInfo;
-            media = await haruka.downloadAndSaveMediaMessage(encmedia);
-            ran = getRandom(".mp3");
-            exec(
-              `ffmpeg -i ${media} -filter:a "atempo=0.7,asetrate=44100" ${ran}`,
-              (err, stderr, stdout) => {
-                fs.unlinkSync(media);
-                if (err) return reply("Error!");
-                uhh = fs.readFileSync(ran);
-                haruka.sendMessage(from, uhh, audio, {
-                  mimetype: "audio/mp4",
-                  ptt: true,
-                  quoted: mek,
-                });
-                fs.unlinkSync(ran);
-              }
-            );
-          } catch (e) {
-            reply("Error!");
-          }
-        }
 
-        break;
-      case "robot":
-        {
-          encmedia = JSON.parse(JSON.stringify(mek).replace("quotedM", "m"))
-            .message.extendedTextMessage.contextInfo;
-          media = await haruka.downloadAndSaveMediaMessage(encmedia);
-          ran = getRandom(".mp3");
-          exec(
-            `ffmpeg -i ${media} -filter_complex "afftfilt=real='hypot(re,im)*sin(0)':imag='hypot(re,im)*cos(0)':win_size=512:overlap=0.75" ${ran}`,
-            (err, stderr, stdout) => {
-              fs.unlinkSync(media);
-              if (err) return reply("Error!");
-              hah = fs.readFileSync(ran);
-              haruka.sendMessage(from, hah, audio, {
-                mimetype: "audio/mp4",
-                ptt: true,
-                quoted: mek,
-              });
-              fs.unlinkSync(ran);
-            }
-          );
-        }
-        break;
-      case "vibra":
-      case "vibrato":
-        {
-          encmedia = JSON.parse(JSON.stringify(mek).replace("quotedM", "m"))
-            .message.extendedTextMessage.contextInfo;
-          media = await haruka.downloadAndSaveMediaMessage(encmedia);
-          ran = getRandom(".mp3");
-          exec(
-            `ffmpeg -i ${media} -filter_complex "vibrato=f=16" ${ran}`,
-            (err, stderr, stdout) => {
-              fs.unlinkSync(media);
-              if (err) return reply("Error!");
-              hah = fs.readFileSync(ran);
-              haruka.sendMessage(from, hah, audio, {
-                mimetype: "audio/mp4",
-                ptt: true,
-                quoted: mek,
-              });
-              fs.unlinkSync(ran);
-            }
-          );
-        }
-        break;
-      case "tupai":
-        {
-          try {
-            encmedia = JSON.parse(JSON.stringify(mek).replace("quotedM", "m"))
-              .message.extendedTextMessage.contextInfo;
-            media = await haruka.downloadAndSaveMediaMessage(encmedia);
-            ran = getRandom(".mp3");
-            exec(
-              `ffmpeg -i ${media} -filter:a "atempo=0.5,asetrate=65100" ${ran}`,
-              (err, stderr, stdout) => {
-                fs.unlinkSync(media);
-                if (err) return reply("Error!");
-                hah = fs.readFileSync(ran);
-                haruka.sendMessage(from, hah, audio, {
-                  mimetype: "audio/mp4",
-                  ptt: true,
-                  quoted: mek,
-                  duration: 999099,
-                });
-                fs.unlinkSync(ran);
-              }
-            );
-          } catch (e) {
-            reply(mess.error);
-          }
-        }
-        break;
-      case "fast":
-        {
-          try {
-            encmedia = JSON.parse(JSON.stringify(mek).replace("quotedM", "m"))
-              .message.extendedTextMessage.contextInfo;
-            media = await haruka.downloadAndSaveMediaMessage(encmedia);
-            ran = getRandom(".mp3");
-            exec(
-              `ffmpeg -i ${media} -filter:a "atempo=1.3,asetrate=43000" ${ran}`,
-              (err, stderr, stdout) => {
-                fs.unlinkSync(media);
-                if (err) return reply("Error!");
-                hah = fs.readFileSync(ran);
-                haruka.sendMessage(from, hah, audio, {
-                  mimetype: "audio/mp4",
-                  ptt: true,
-                  quoted: mek,
-                });
-                fs.unlinkSync(ran);
-              }
-            );
-          } catch (e) {
-            reply("Error!");
-          }
-        }
-        break;
       case "nulis":
         reply(
           `*Example*\n${prefix}nuliskiri\n${prefix}nuliskanan\n${prefix}foliokiri\n${prefix}foliokanan`
@@ -2047,20 +2696,7 @@ module.exports = haruka = async (haruka, mek) => {
           }
         });
         break;
-      case "semoji":
-      case "emoji":
-        if (!isGroup) return reply(lang.group());
-        if (!q) return reply("emojinya?");
-        qes = args.join(" ");
-        reply(lang.wait());
-        emoji.get(`${qes}`).then(async (emojii) => {
-          teks = `${emojii.images[4].url}`;
-          console.log(teks);
-          //haruka.sendMessage(from, await getBuffer(teks), sticker, {mimetype:'image/webp',quoted: mek})
-          sendStickerFromUrl(from, `${teks}`);
-        });
 
-        break;
       case "ytmp3":
         {
           if (args.length === 0)
@@ -2101,6 +2737,18 @@ module.exports = haruka = async (haruka, mek) => {
         }
         break;
       default:
+        if (isCmd) {
+          reply(
+            `Sorry bro, command *${prefix}${command}* gk ada di list *${prefix}help*`
+          );
+        }
+        if (!isGroup && !isCmd && !kuis) {
+          await haruka.updatePresence(from, Presence.composing);
+          simi = await fetchJson(
+            `https://api.lolhuman.xyz/api/simi?apikey=${lolkey}&text=${budy}`
+          );
+          reply(simi.result);
+        }
         if (budy.startsWith(">")) {
           try {
             if (!(mek.key.fromMe && isOwner)) return reply(lang.owner(botname));
@@ -2119,7 +2767,7 @@ module.exports = haruka = async (haruka, mek) => {
           if (!(mek.key.fromMe && isOwner)) return reply(lang.owner(botname));
           qur = budy.slice(2);
           exec(qur, (err, stdout) => {
-            if (err) return reply(`HarukaBot :~ ${err}`);
+            if (err) return reply(`Pogam :~ ${err}`);
             if (stdout) {
               reply(stdout);
             }

@@ -1,14 +1,13 @@
 {
   "name": "nivth",
-  "version": "4.0.0",
+  "version": "2.0.0",
   "main": "index.js",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "preinstall": "npm install pm2 -g", 
-    "start": "pm2-runtime index.js -i max"
+    "start": "node index.js"
   },
   "author": "Nivth",
   "dependencies": {
