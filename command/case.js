@@ -2082,18 +2082,16 @@ module.exports = haruka = async (haruka, mek) => {
       case "birthdayday":
       case "goldplaybutton":
       case "silverplaybutton":
-      case "freefire": {
+      case "freefire":
         if (args.length == 0)
-          return reply(`Example: ${prefix + command} Haruka`);
+          return reply(`Example: ${prefix + command} Pogam Gemink`);
         ini_txt = args.join(" ");
-        var po = await getBuffer(
+        getBuffer(
           `https://api.lolhuman.xyz/api/ephoto1/${command}?apikey=${lolkey}&text=${ini_txt}`
-        );
-        haruka.sendMessage(from, po, image, {
-          quoted: mek,
-          caption: "Selesai",
+        ).then((gambar) => {
+          lolhuman.sendMessage(from, gambar, image, { quoted: lol });
         });
-      }
+        break;
 
       // Photo Oxy //
       case "shadow":
