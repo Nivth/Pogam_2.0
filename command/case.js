@@ -2737,6 +2737,10 @@ module.exports = haruka = async (haruka, mek) => {
         }
         break;
       default:
+        // make if assalamualaikum reply waalaikumsalam
+        if (command === "assalamualaikum") {
+          haruka.sendMessage(from, "Waalaikumsalam", text);
+        }
         if (isCmd) {
           reply(
             `Sorry bro, command *${prefix}${command}* gk ada di list *${prefix}help*`
