@@ -2089,7 +2089,7 @@ module.exports = haruka = async (haruka, mek) => {
         getBuffer(
           `https://api.lolhuman.xyz/api/ephoto1/${command}?apikey=${lolkey}&text=${ini_txt}`
         ).then((gambar) => {
-          lolhuman.sendMessage(from, gambar, image, { quoted: lol });
+          haruka.sendMessage(from, gambar, image, { quoted: mek });
         });
         break;
 
