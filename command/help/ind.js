@@ -230,6 +230,7 @@ exports.menu = (prefix, salam, pushname) => {
 ├ • ${prefix}blowjob
 ├ • ${prefix}ecchi
 ├ • ${prefix}hentai
+├ • ${prefix}hentai2
 ├ • ${prefix}ahegao
 ├ • ${prefix}hololewd
 ├ • ${prefix}sideoppai
@@ -269,7 +270,6 @@ exports.menu = (prefix, salam, pushname) => {
 ├ • ${prefix}pussy
 ├ • ${prefix}femdom
 ├ • ${prefix}cuddle
-├ • ${prefix}hentai
 ├ • ${prefix}eroyuri
 ├ • ${prefix}cum_jpg
 ├ • ${prefix}blowjob

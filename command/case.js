@@ -1967,7 +1967,6 @@ module.exports = haruka = async (haruka, mek) => {
       case "neko":
       case "waifu":
       case "shota":
-      case "husbu":
       case "sagiri":
       case "shinobu":
       case "megumin":
@@ -1981,7 +1980,6 @@ module.exports = haruka = async (haruka, mek) => {
       case "chiisaihentai":
       case "trap":
       case "blowjob":
-      case "yaoi":
       case "ecchi":
       case "hentai":
       case "ahegao":
@@ -2008,7 +2006,7 @@ module.exports = haruka = async (haruka, mek) => {
       case "cum":
       case "feet":
       case "yuri":
-      case "trap":
+      case "trap2":
       case "lewd":
       case "feed":
       case "eron":
@@ -2030,7 +2028,7 @@ module.exports = haruka = async (haruka, mek) => {
       case "pussy":
       case "femdom":
       case "cuddle":
-      case "hentai":
+      case "hentai2":
       case "eroyuri":
       case "cum_jpg":
       case "blowjob":
