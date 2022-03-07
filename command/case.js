@@ -38,7 +38,7 @@ const speed = require("performance-now");
 const util = require("util");
 const yts = require("yt-search");
 const ytdl = require("ytdl-core");
-const zee = require("api-alphabot");
+const zee = require("xfarr-api");
 
 //library
 const {
@@ -126,7 +126,7 @@ module.exports = haruka = async (haruka, mek) => {
         ? mek.message.extendedTextMessage.text
         : "".slice(1).trim().split(/ +/).shift().toLowerCase();
     const prefix = /^[°•π÷×¶∆£¢€¥®™=|~!#$%^&.?/\\©^z+*@,;]/.test(cmd)
-      ? cmd.match(/^[°•π÷×¶∆£¢€¥®™=|~!#$%^&.?/\\©^z+*,;]/gi)
+      ? cmd.match(/^[.]/gi)
       : "-";
     body =
       type === "conversation" && mek.message.conversation.startsWith(prefix)
@@ -2733,10 +2733,6 @@ module.exports = haruka = async (haruka, mek) => {
         }
         break;
       default:
-        // make if assalamualaikum reply waalaikumsalam
-        if (command === "assalamualaikum") {
-          haruka.sendMessage(from, "Waalaikumsalam", text);
-        }
         if (isCmd) {
           reply(
             `Sorry bro, command *${prefix}${command}* gk ada di list *${prefix}help*`
